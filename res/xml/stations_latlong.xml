@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<stations>
+  <station>
+    <name>12th St. Oakland City Center</name>
+    <abbr>12TH</abbr>
+    <gtfs_latitude>37.803664</gtfs_latitude>
+    <gtfs_longitude>-122.271604</gtfs_longitude>
+  </station>
+  <station>
+    <name>16th St. Mission</name>
+    <abbr>16TH</abbr>
+    <gtfs_latitude>37.765062</gtfs_latitude>
+    <gtfs_longitude>-122.419694</gtfs_longitude>
+  </station>
+  <station>
+    <name>19th St. Oakland</name>
+    <abbr>19TH</abbr>
+    <gtfs_latitude>37.80787</gtfs_latitude>
+    <gtfs_longitude>-122.269029</gtfs_longitude>
+  </station>
+  <station>
+    <name>24th St. Mission</name>
+    <abbr>24TH</abbr>
+    <gtfs_latitude>37.752254</gtfs_latitude>
+    <gtfs_longitude>-122.418466</gtfs_longitude>
+  </station>
+  <station>
+    <name>Ashby</name>
+    <abbr>ASHB</abbr>
+    <gtfs_latitude>37.853024</gtfs_latitude>
+    <gtfs_longitude>-122.26978</gtfs_longitude>
+  </station>
+  <station>
+    <name>Balboa Park</name>
+    <abbr>BALB</abbr>
+    <gtfs_latitude>37.72198087</gtfs_latitude>
+    <gtfs_longitude>-122.4474142</gtfs_longitude>
+  </station>
+  <station>
+    <name>Bay Fair</name>
+    <abbr>BAYF</abbr>
+    <gtfs_latitude>37.697185</gtfs_latitude>
+    <gtfs_longitude>-122.126871</gtfs_longitude>
+  </station>
+  <station>
+    <name>Castro Valley</name>
+    <abbr>CAST</abbr>
+    <gtfs_latitude>37.690754</gtfs_latitude>
+    <gtfs_longitude>-122.075567</gtfs_longitude>
+  </station>
+  <station>
+    <name>Civic Center/UN Plaza</name>
+    <abbr>CIVC</abbr>
+    <gtfs_latitude>37.779528</gtfs_latitude>
+    <gtfs_longitude>-122.413756</gtfs_longitude>
+  </station>
+  <station>
+    <name>Coliseum/Oakland Airport</name>
+    <abbr>COLS</abbr>
+    <gtfs_latitude>37.754006</gtfs_latitude>
+    <gtfs_longitude>-122.197273</gtfs_longitude>
+  </station>
+  <station>
+    <name>Colma</name>
+    <abbr>COLM</abbr>
+    <gtfs_latitude>37.684638</gtfs_latitude>
+    <gtfs_longitude>-122.466233</gtfs_longitude>
+  </station>
+  <station>
+    <name>Concord</name>
+    <abbr>CONC</abbr>
+    <gtfs_latitude>37.973737</gtfs_latitude>
+    <gtfs_longitude>-122.029095</gtfs_longitude>
+  </station>
+  <station>
+    <name>Daly City</name>
+    <abbr>DALY</abbr>
+    <gtfs_latitude>37.70612055</gtfs_latitude>
+    <gtfs_longitude>-122.4690807</gtfs_longitude>
+  </station>
+  <station>
+    <name>Downtown Berkeley</name>
+    <abbr>DBRK</abbr>
+    <gtfs_latitude>37.869867</gtfs_latitude>
+    <gtfs_longitude>-122.268045</gtfs_longitude>
+  </station>
+  <station>
+    <name>Dublin/Pleasanton</name>
+    <abbr>DUBL</abbr>
+    <gtfs_latitude>37.701695</gtfs_latitude>
+    <gtfs_longitude>-121.900367</gtfs_longitude>
+  </station>
+  <station>
+    <name>El Cerrito del Norte</name>
+    <abbr>DELN</abbr>
+    <gtfs_latitude>37.925655</gtfs_latitude>
+    <gtfs_longitude>-122.317269</gtfs_longitude>
+  </station>
+  <station>
+    <name>El Cerrito Plaza</name>
+    <abbr>PLZA</abbr>
+    <gtfs_latitude>37.9030588</gtfs_latitude>
+    <gtfs_longitude>-122.2992715</gtfs_longitude>
+  </station>
+  <station>
+    <name>Embarcadero</name>
+    <abbr>EMBR</abbr>
+    <gtfs_latitude>37.792976</gtfs_latitude>
+    <gtfs_longitude>-122.396742</gtfs_longitude>
+  </station>
+  <station>
+    <name>Fremont</name>
+    <abbr>FRMT</abbr>
+    <gtfs_latitude>37.557355</gtfs_latitude>
+    <gtfs_longitude>-121.9764</gtfs_longitude>
+  </station>
+  <station>
+    <name>Fruitvale</name>
+    <abbr>FTVL</abbr>
+    <gtfs_latitude>37.774963</gtfs_latitude>
+    <gtfs_longitude>-122.224274</gtfs_longitude>
+  </station>
+  <station>
+    <name>Glen Park</name>
+    <abbr>GLEN</abbr>
+    <gtfs_latitude>37.732921</gtfs_latitude>
+    <gtfs_longitude>-122.434092</gtfs_longitude>
+  </station>
+  <station>
+    <name>Hayward</name>
+    <abbr>HAYW</abbr>
+    <gtfs_latitude>37.670399</gtfs_latitude>
+    <gtfs_longitude>-122.087967</gtfs_longitude>
+  </station>
+  <station>
+    <name>Lafayette</name>
+    <abbr>LAFY</abbr>
+    <gtfs_latitude>37.893394</gtfs_latitude>
+    <gtfs_longitude>-122.123801</gtfs_longitude>
+  </station>
+  <station>
+    <name>Lake Merritt</name>
+    <abbr>LAKE</abbr>
+    <gtfs_latitude>37.797484</gtfs_latitude>
+    <gtfs_longitude>-122.265609</gtfs_longitude>
+  </station>
+  <station>
+    <name>MacArthur</name>
+    <abbr>MCAR</abbr>
+    <gtfs_latitude>37.828415</gtfs_latitude>
+    <gtfs_longitude>-122.267227</gtfs_longitude>
+  </station>
+  <station>
+    <name>Millbrae</name>
+    <abbr>MLBR</abbr>
+    <gtfs_latitude>37.599787</gtfs_latitude>
+    <gtfs_longitude>-122.38666</gtfs_longitude>
+  </station>
+  <station>
+    <name>Montgomery St.</name>
+    <abbr>MONT</abbr>
+    <gtfs_latitude>37.789256</gtfs_latitude>
+    <gtfs_longitude>-122.401407</gtfs_longitude>
+  </station>
+  <station>
+    <name>North Berkeley</name>
+    <abbr>NBRK</abbr>
+    <gtfs_latitude>37.87404</gtfs_latitude>
+    <gtfs_longitude>-122.283451</gtfs_longitude>
+  </station>
+  <station>
+    <name>North Concord/Martinez</name>
+    <abbr>NCON</abbr>
+    <gtfs_latitude>38.003275</gtfs_latitude>
+    <gtfs_longitude>-122.024597</gtfs_longitude>
+  </station>
+  <station>
+    <name>Orinda</name>
+    <abbr>ORIN</abbr>
+    <gtfs_latitude>37.87836087</gtfs_latitude>
+    <gtfs_longitude>-122.1837911</gtfs_longitude>
+  </station>
+  <station>
+    <name>Pittsburg/Bay Point</name>
+    <abbr>PITT</abbr>
+    <gtfs_latitude>38.018914</gtfs_latitude>
+    <gtfs_longitude>-121.945154</gtfs_longitude>
+  </station>
+  <station>
+    <name>Pleasant Hill/Contra Costa Centre</name>
+    <abbr>PHIL</abbr>
+    <gtfs_latitude>37.928403</gtfs_latitude>
+    <gtfs_longitude>-122.056013</gtfs_longitude>
+  </station>
+  <station>
+    <name>Powell St.</name>
+    <abbr>POWL</abbr>
+    <gtfs_latitude>37.784991</gtfs_latitude>
+    <gtfs_longitude>-122.406857</gtfs_longitude>
+  </station>
+  <station>
+    <name>Richmond</name>
+    <abbr>RICH</abbr>
+    <gtfs_latitude>37.936887</gtfs_latitude>
+    <gtfs_longitude>-122.353165</gtfs_longitude>
+  </station>
+  <station>
+    <name>Rockridge</name>
+    <abbr>ROCK</abbr>
+    <gtfs_latitude>37.844601</gtfs_latitude>
+    <gtfs_longitude>-122.251793</gtfs_longitude>
+  </station>
+  <station>
+    <name>San Bruno</name>
+    <abbr>SBRN</abbr>
+    <gtfs_latitude>37.637753</gtfs_latitude>
+    <gtfs_longitude>-122.416038</gtfs_longitude>
+  </station>
+  <station>
+    <name>San Francisco Int'l Airport</name>
+    <abbr>SFIA</abbr>
+    <gtfs_latitude>37.616035</gtfs_latitude>
+    <gtfs_longitude>-122.392612</gtfs_longitude>
+  </station>
+  <station>
+    <name>San Leandro</name>
+    <abbr>SANL</abbr>
+    <gtfs_latitude>37.72261921</gtfs_latitude>
+    <gtfs_longitude>-122.1613112</gtfs_longitude>
+  </station>
+  <station>
+    <name>South Hayward</name>
+    <abbr>SHAY</abbr>
+    <gtfs_latitude>37.63479954</gtfs_latitude>
+    <gtfs_longitude>-122.0575506</gtfs_longitude>
+  </station>
+  <station>
+    <name>South San Francisco</name>
+    <abbr>SSAN</abbr>
+    <gtfs_latitude>37.664174</gtfs_latitude>
+    <gtfs_longitude>-122.444116</gtfs_longitude>
+  </station>
+  <station>
+    <name>Union City</name>
+    <abbr>UCTY</abbr>
+    <gtfs_latitude>37.591208</gtfs_latitude>
+    <gtfs_longitude>-122.017867</gtfs_longitude>
+  </station>
+  <station>
+    <name>Walnut Creek</name>
+    <abbr>WCRK</abbr>
+    <gtfs_latitude>37.905628</gtfs_latitude>
+    <gtfs_longitude>-122.067423</gtfs_longitude>
+  </station>
+  <station>
+    <name>West Dublin/Pleasanton</name>
+    <abbr>WDUB</abbr>
+    <gtfs_latitude>37.699759</gtfs_latitude>
+    <gtfs_longitude>-121.928099</gtfs_longitude>
+  </station>
+  <station>
+    <name>West Oakland</name>
+    <abbr>WOAK</abbr>
+    <gtfs_latitude>37.80467476</gtfs_latitude>
+    <gtfs_longitude>-122.2945822</gtfs_longitude>
+  </station>
+</stations>
