@@ -1,9 +1,14 @@
 package com.tellmas.android.bart;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.content.Context;
+import android.content.Intent;
 
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +36,8 @@ public class Bart extends Activity {
 
 
     private String stringErrorAccessLocation;
-    private Location location;
+    private Location userLocation;
+    private Station closestStation;
 
     LocationManager locationManager;
 
@@ -63,20 +69,22 @@ public class Bart extends Activity {
         super.onCreate(savedInstanceState);
         this.stringErrorAccessLocation = getString(R.string.error_location_access);
         this.stationInfo = new ArrayList<Station>(NUM_STATIONS);
-        setContentView(R.layout.main);
 
         this.getStations();
+        
+        setContentView(R.layout.main);
 
-        Location location = this.getLastKnownLocation();
-        if (location == null) {
+        this.userLocation = this.getLastKnownLocation();
+        if (this.userLocation == null) {
 
             locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 
             // Define a listener that responds to location updates
             LocationListener locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {
+                    userLocation = location;
                     locationManager.removeUpdates(this);
-                    displayStation(location);
+                    displayStation();
                 }
                 public void onStatusChanged(String provider, int status, Bundle extras) {}
                 public void onProviderEnabled(String provider) {
@@ -89,24 +97,28 @@ public class Bart extends Activity {
             // Register the listener with the Location Manager to receive location updates
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         } else {
-            this.displayStation(location);
+            this.displayStation();
         }
 
     }
 
     
-    private void displayStation(Location location) {
+    private void displayStation() {
         Station closestStation = null;
-        String name = "blah";
-        if (location != null) {
-            Log.i(LOG_ID, location.getProvider());
-            closestStation = this.getClosestStation(location);
+        String name = "";
+        if (this.userLocation != null) {
+            Log.i(LOG_ID, this.userLocation.getProvider());
+            closestStation = this.getClosestStation(this.userLocation);
             Log.i(LOG_ID, closestStation.getName());
             name = closestStation.getName();
         }
 
         TextView stationName = (TextView)findViewById(R.id.station_name);
-        stationName.setText(name);    	
+        stationName.setText(name);
+
+        Button mapItButton = (Button)findViewById(R.id.map_it);
+        mapItButton.setOnClickListener(new MapItOnClickListener(this.userLocation, this.closestStation));
+        mapItButton.setVisibility(View.VISIBLE);
     }
 
     
@@ -130,6 +142,7 @@ public class Bart extends Activity {
 
         if (closestStation != null) {
             Log.i(LOG_ID, "closest station: " + closestStation.getName());
+            this.closestStation = closestStation; 
         } else {
             Log.i(LOG_ID, "closest station: NULL");
         }
@@ -251,5 +264,42 @@ public class Bart extends Activity {
 
         return location;
     }
+
+
+	/**
+	 *
+	 */
+	public class MapItOnClickListener implements OnClickListener {
+
+	    private Location location;
+	    private Station station;
+
+
+	    public MapItOnClickListener(Location location, Station station) {
+	        this.location = location;
+	        this.station = station;
+	    }
+
+
+	    /* (non-Javadoc)
+	     * @see android.view.View.OnClickListener#onClick(android.view.View)
+	     */
+	    @Override
+	    public void onClick(View v) {
+	        String uri = "";
+	        try {
+	            uri = "http://maps.google.com/maps?" +
+	                "saddr="  + this.location.getLatitude() + "," + this.location.getLongitude() +
+	                "&daddr=" + this.station.getLatitude()  + "," + this.station.getLongitude();
+	            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+	            startActivity(intent);
+	        } catch (Exception e) {
+	            Log.e(LOG_ID, e.toString(), e);
+	        }
+
+
+	    }
+
+	}
 
 }

@@ -12,6 +12,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/locating"
         android:id="@+id/station_name"
+    />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="@string/map_it_button"
+        android:id="@+id/map_it"
     />
 </LinearLayout>
