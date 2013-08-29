@@ -211,29 +211,6 @@ public class Bart extends Activity {
                             // 'atWhichTag' was null, so just skip this node.
                         }
 
-/*						
-Method meth = null;
-Log.i(LOG_ID, "at the text of a node: " + xpp.getText());
-						try {
-Log.i(LOG_ID, "tag name: " + xmlTags.get(atWhichTag));
-							String methodName = xmlTags.get(atWhichTag);
-							Class<? extends Station> c = station.getClass();
-Log.i(LOG_ID, "class: " + c.getName());
-							Class[] params = new Class[1];
-							params[0] = Station.class;
-							Method method = c.getMethod(methodName, params);
-							//Method method = station.getClass().getMethod(xmlTags.get(atWhichTag));
-meth = method;
-Log.i(LOG_ID, method.getName());
-							method.invoke(station, xpp.getText());
-							Log.i(LOG_ID, "called modifiying method: " + method.getName());
-						} catch (NoSuchMethodException nsme) {
-							Log.e(LOG_ID, nsme.toString());
-						} catch (NullPointerException npe) {
-							// 'atWhichTag' was null, so just skip this node.
-Log.i(LOG_ID, "NullPointerException when invoking method: " + meth.getName());
-						}
-*/
                     } else if (eventType == XmlPullParser.END_TAG) {
 
                         // if we've reached the end of the <station>...
