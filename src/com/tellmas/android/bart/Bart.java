@@ -54,25 +54,7 @@ public class Bart extends Activity {
         xmlTags = Collections.unmodifiableMap(initMap);
     };
 
-/*
-	private static final String[] xmlTagNames = {
-	}:
-	private static final Map<String,String> xmlTagNames = new HashMap<String,String>() {
-		"stations", "station", "name", "abbr", "gtfs_latitude", "gtfs_longitude",
-		"address", "city", "county", "state", "zipcode"
-	};
-*/
-    private static final String XML_TAG_NAME_ROOT = "stations";
     private static final String XML_TAG_NAME_STATION_ROOT = "station";
-    private static final String XML_TAG_NAME_STATION_NAME = "name";
-    private static final String XML_TAG_NAME_STATION_ABBR = "abbr";
-    private static final String XML_TAG_NAME_STATION_LAT = "gtfs_latitude";
-    private static final String XML_TAG_NAME_STATION_LONG = "gtfs_longitude";
-    private static final String XML_TAG_NAME_STATION_STREET = "address";
-    private static final String XML_TAG_NAME_STATION_CITY = "city";
-    private static final String XML_TAG_NAME_STATION_COUNTY = "county";
-    private static final String XML_TAG_NAME_STATION_STATE = "state";
-    private static final String XML_TAG_NAME_STATION_ZIP = "zipcode";
 
 
     @Override
