@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import android.location.Location;
 import android.location.LocationManager;
@@ -22,10 +21,8 @@ import java.util.HashMap;
 import java.util.Collections;
 import android.util.Log;
 import java.lang.NumberFormatException;
-import java.lang.reflect.Method;
 
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
 
 
