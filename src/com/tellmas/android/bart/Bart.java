@@ -33,7 +33,6 @@ public class Bart extends Activity {
     private final static long DETERMINE_LOCATION_SLEEP_DURATION = 2000;
 
 
-    private String stringErrorAccessLocation;
     private Location userLocation;
     private Station closestStation;
 
@@ -65,7 +64,7 @@ public class Bart extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        this.stringErrorAccessLocation = getString(R.string.error_location_access);
+        String stringErrorAccessLocation = getString(R.string.error_location_access);
         this.stationInfo = new ArrayList<Station>(NUM_STATIONS);
 
         this.getStations();
