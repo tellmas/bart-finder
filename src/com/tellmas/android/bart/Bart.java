@@ -2,7 +2,6 @@ package com.tellmas.android.bart;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.AsyncTask;
 import android.content.Context;
 
 import android.widget.TextView;
@@ -299,102 +298,4 @@ Log.i(LOG_ID, "NullPointerException when invoking method: " + meth.getName());
         return location;
     }
 
-
-    private class StationInfoTask extends AsyncTask<Void, Station, Void> {
-
-/*
-		Map<String,boolean> atWhichTag = new (HashMap<String,boolean>() {
-			{
-				put("name", false);
-				put("abbr", false);
-				put("gtfs_latitude", false);
-				put("gtfs_longitude", false);
-				put("address", false);
-				put("city", false);
-				put("county", false);
-				put("state", false);
-				put("zipcode", false);
-			}
-		};
-*/
-
-        @Override
-        protected Void doInBackground(Void... unused) {
-            String atWhichTag = "";
-            try {
-                XmlPullParser xpp = getResources().getXml(R.xml.stations);
-                int eventType = xpp.getEventType();
-                Station station = null;
-                while (eventType != XmlPullParser.END_DOCUMENT) {
-                    try {
-                        // if we're at the start of a node...
-						if (eventType == XmlPullParser.START_TAG) {
-							atWhichTag = xpp.getName();
-							// if we're at the start of a <station>...
-							if (atWhichTag.equals(XML_TAG_NAME_STATION_ROOT)) {
-								station = new Station();
-							}
-							// else if we're NOT at the start of a xml node we recognize...
-							else if (! xmlTags.containsKey(atWhichTag)) {
-								//atWhichTag.put(XML_TAG_NAME_STATION_NAME, true);
-								//atWhichTag = XML_TAG_NAME_STATION_NAME;
-								// ...skip it.
-								atWhichTag = "";
-							}
-						// ...else we're at the value of the node.
-						} else if (eventType == XmlPullParser.TEXT) {
-							try {
-								Method method = station.getClass().getMethod(xmlTags.get(atWhichTag));
-								method.invoke(xpp.getText());
-							} catch (NullPointerException npe) {
-								// 'atWhichTag' was null, so just skip this node.
-							}
-						} else if (eventType == XmlPullParser.END_TAG) {
-							
-							// if we've reached the end of the <station>...
-							if (atWhichTag.equals(XML_TAG_NAME_STATION_ROOT)) {
-								//publishProgress(station);
-							}
-							atWhichTag = "";
-						}
-						// ...else at START_DOCUMENT, in which case we don't do anything on it.
-
-					} catch(NumberFormatException nfe) {
-						// invalid xml value
-						String msg = nfe.getMessage();
-						msg.toString();
-					} catch(Exception e) {
-						String msg = e.getMessage();
-						msg.toString();
-					} finally {
-						// go to next element
-						eventType = xpp.next();
-					}
-
-				} // end while
-			} catch(Exception e) {
-				// reading xml failed
-				String msg = e.getMessage();
-				msg.toString();
-			}
-
-publishProgress(new Station());
-			return null;
-		}
-
-		@Override
-		protected void onProgressUpdate(Station... station) {
-Station st = new Station("blah");
-//this.stationInfo.add(st);
-stationInfo.add(st);
-Toast.makeText(Bart.this, "Added station", Toast.LENGTH_SHORT).show();
-			//this.stationInfo.add(station);
-		}
-
-		@Override
-		protected void onPostExecute(Void unused) {
-			Toast.makeText(Bart.this, "Done!", Toast.LENGTH_SHORT).show();
-		}
-
-	}
 }
