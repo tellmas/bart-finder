@@ -63,15 +63,10 @@ public class Bart extends Activity {
         super.onCreate(savedInstanceState);
         this.stringErrorAccessLocation = getString(R.string.error_location_access);
         this.stationInfo = new ArrayList<Station>(NUM_STATIONS);
-
         setContentView(R.layout.main);
 
-        //this.getClosestStation();
-
-        //new StationInfoTask().execute();
-
         this.getStations();
-        (Toast.makeText(Bart.this, Integer.valueOf(this.stationInfo.size()).toString(), Toast.LENGTH_LONG)).show();
+
         Location location = this.getLastKnownLocation();
         if (location == null) {
 
