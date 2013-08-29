@@ -30,8 +30,6 @@ public class Bart extends Activity {
 
     private final static int NUM_STATIONS = 44;
     private final static String LOG_ID = "BART";
-    private final static long DETERMINE_LOCATION_SLEEP_DURATION = 2000;
-
 
     private Location userLocation;
     private Station closestStation;
