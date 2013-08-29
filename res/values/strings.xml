@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Bart Finder</string>
 
-	<string name="label">Closest BART Station to you:</string>
-	<string name="error_location_access">Can not determine your location. Do you have Location access turned on?</string>
+    <string name="label">Closest BART Station to you:</string>
+    <string name="error_location_access">Can not determine your location. Do you have Location access turned on?</string>
 </resources>
