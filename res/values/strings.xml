@@ -6,4 +6,5 @@
     <string name="locating">Determining your location...</string>
     <string name="error_location_access">Can not determine your location. Do you have Location access turned on?</string>
     <string name="map_it_button">Map it!</string>
+    <string name="refresh_location_button">Refresh Location</string>
 </resources>

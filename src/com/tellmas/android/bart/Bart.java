@@ -33,6 +33,7 @@ public class Bart extends Activity {
 
     private final static int NUM_STATIONS = 44;
     private final static String LOG_ID = "BART";
+    private final static long DETERMINE_LOCATION_SLEEP_DURATION = 2000;
 
 
     private String stringErrorAccessLocation;
@@ -73,8 +74,31 @@ public class Bart extends Activity {
         this.getStations();
         
         setContentView(R.layout.main);
+        // --- Refresh Location Button setup ---
+        Button refreshLocationButton = (Button)findViewById(R.id.refresh_location);
+        refreshLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView stationName = (TextView)findViewById(R.id.station_name);
+                stationName.setText(getString(R.string.locating));
+                getLocation(true);
+            }
+        });
 
-        this.userLocation = this.getLastKnownLocation();
+        this.getLocation(false);
+    }
+
+
+    /**
+     * 
+     */
+    private void getLocation(boolean forceNewLocation) {
+
+        if (forceNewLocation) {
+            this.userLocation = null;
+        } else {
+            this.userLocation = this.getLastKnownLocation();
+        }
         if (this.userLocation == null) {
 
             locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
@@ -115,6 +139,9 @@ public class Bart extends Activity {
 
         TextView stationName = (TextView)findViewById(R.id.station_name);
         stationName.setText(name);
+
+        Button refreshLocationButton = (Button)findViewById(R.id.refresh_location);
+        refreshLocationButton.setVisibility(View.VISIBLE);
 
         Button mapItButton = (Button)findViewById(R.id.map_it);
         mapItButton.setOnClickListener(new MapItOnClickListener(this.userLocation, this.closestStation));
