@@ -68,9 +68,7 @@ public class Bart extends Activity {
         this.getStations();
         
         setContentView(R.layout.main);
-        // --- Map It Button setup ---
-        Button mapItButton = (Button)findViewById(R.id.map_it);
-        mapItButton.setOnClickListener(new MapItOnClickListener(this.userLocation, this.closestStation));
+
         // --- Refresh Location Button setup ---
         Button refreshLocationButton = (Button)findViewById(R.id.refresh_location);
         refreshLocationButton.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +139,7 @@ public class Bart extends Activity {
         refreshLocationButton.setVisibility(View.VISIBLE);
 
         Button mapItButton = (Button)findViewById(R.id.map_it);
+        mapItButton.setOnClickListener(new MapItOnClickListener(this.userLocation, this.closestStation));
         mapItButton.setVisibility(View.VISIBLE);
     }
 
