@@ -96,7 +96,7 @@ public class Bart extends Activity {
         }
         if (this.userLocation == null) {
 
-            locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+            this.locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 
             // Define a listener that responds to location updates
             LocationListener locationListener = new LocationListener() {
@@ -114,7 +114,7 @@ public class Bart extends Activity {
             };
 
             // Register the listener with the Location Manager to receive location updates
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         } else {
             this.displayStation();
         }
