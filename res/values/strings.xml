@@ -3,7 +3,7 @@
     <string name="app_name">Bart Finder</string>
 
     <string name="label">Closest BART Station to you:</string>
-    <string name="locating">Determining your location...</string>
+    <string name="locating">Determining your location&#8230;</string>
     <string name="error_location_access">Can not determine your location. Do you have Location access turned on?</string>
     <string name="map_it_button">Map it!</string>
     <string name="refresh_location_button">Refresh Location</string>
