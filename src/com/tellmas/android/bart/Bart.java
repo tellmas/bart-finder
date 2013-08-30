@@ -313,7 +313,7 @@ public class Bart extends Activity {
 	        try {
 	            uri = "http://maps.google.com/maps?" +
 	                "saddr="  + this.location.getLatitude() + "," + this.location.getLongitude() +
-	                "&daddr=" + this.station.getLatitude()  + "," + this.station.getLongitude();
+	                "&daddr=" + this.station.getLatitude()  + "," + this.station.getLongitude() + "(" + station.getName() + " BART)";
 	            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 	            startActivity(intent);
 	        } catch (Exception e) {
