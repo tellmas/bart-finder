@@ -147,8 +147,9 @@ public class Bart extends Activity {
     private Station getClosestStation(Location location) {
         Station closestStation = (Station)this.stationInfo.get(0);
         float shortestDistance = Float.MAX_VALUE;
-        Log.i(LOG_ID, "arraylist size: " + this.stationInfo.size());
-        for (int i=0; i < this.stationInfo.size(); i++) {
+        int arrayLength = this.stationInfo.size();
+        Log.i(LOG_ID, "arraylist size: " + arrayLength);
+        for (int i=0; i < arrayLength; i++) {
             Station st = (Station)this.stationInfo.get(i);
             //Log.i(LOG_ID, (this.stationInfo.get(i)).getLatitude() + "");
             Location stationLocation = new Location(location);
