@@ -26,12 +26,12 @@ public class Station {
     public Station(String name, String abbreviation,
                    String address, String city, String county, String state, String zipcode,
                    double latitude, double longitude) {
-        this.setName(name);
-        this.setAbbreviation(abbreviation);
-        this.setAddress(address);
-        this.setCity(city);
-        this.setCounty(county);
-        this.setState(state);
+        this.name = name;
+        this.abbreviation = abbreviation;
+        this.address = address;
+        this.city = city;
+        this.county = county;
+        this.state = state;
         this.setZipcode(zipcode);
         this.setLatitude(latitude);
         this.setLongitude(longitude);
