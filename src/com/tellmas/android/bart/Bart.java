@@ -99,6 +99,23 @@ public class Bart extends Activity {
 
             this.locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 
+            // Determine which Location Sources are enabled
+            boolean gpsEnabled = false;
+            boolean networkEnabled = false;
+            String preferedProvider = null;
+            try {
+                gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            } catch (SecurityException se) {}
+            try {
+                networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            } catch (SecurityException se) {}
+            // Determine which Location Source to use
+            if (networkEnabled) {
+                preferedProvider = LocationManager.NETWORK_PROVIDER;
+            } else if (gpsEnabled) {
+                preferedProvider = LocationManager.GPS_PROVIDER;
+            }
+
             // Define a listener that responds to location updates
             LocationListener locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {
@@ -114,8 +131,15 @@ public class Bart extends Activity {
                 }
             };
 
-            // Register the listener with the Location Manager to receive location updates
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            // if there's a location provider enabled...
+            if (preferedProvider != null) {
+                // ...register the listener with the Location Manager to receive location updates.
+                locationManager.requestLocationUpdates(preferedProvider, 0, 0, locationListener);
+            // ...else...
+            } else {
+                // ...notify the user.
+                this.displayLocationError();
+            }
         } else {
             this.displayStation();
         }
@@ -123,6 +147,15 @@ public class Bart extends Activity {
     }
 
     
+    private void displayLocationError() {
+        TextView errorView = (TextView)findViewById(R.id.station_name);
+        errorView.setText(getString(R.string.error_location_access));
+
+        Button refreshLocationButton = (Button)findViewById(R.id.refresh_location);
+        refreshLocationButton.setVisibility(View.VISIBLE);
+    }
+
+
     private void displayStation() {
         Station closestStation = null;
         String name = "";
