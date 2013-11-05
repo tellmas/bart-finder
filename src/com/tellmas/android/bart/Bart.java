@@ -1,6 +1,7 @@
 package com.tellmas.android.bart;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Context;
@@ -310,16 +311,18 @@ public class Bart extends Activity {
 	    @Override
 	    public void onClick(View v) {
 	        String uri = "";
+	        Intent intent = null;
+	        uri = "http://maps.google.com/maps?" +
+	            "saddr="  + this.location.getLatitude() + "," + this.location.getLongitude() +
+	            "&daddr=" + this.station.getLatitude()  + "," + this.station.getLongitude() + "(" + station.getName() + " BART)";
 	        try {
-	            uri = "http://maps.google.com/maps?" +
-	                "saddr="  + this.location.getLatitude() + "," + this.location.getLongitude() +
-	                "&daddr=" + this.station.getLatitude()  + "," + this.station.getLongitude() + "(" + station.getName() + " BART)";
-	            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+	            intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
 	            startActivity(intent);
-	        } catch (Exception e) {
-	            Log.e(LOG_ID, e.toString(), e);
-	        }
-
+	        } catch (NullPointerException npe) {
+	            Log.e(LOG_ID, npe.toString(), npe);
+            } catch (ActivityNotFoundException anfe) {
+                Log.e(LOG_ID, anfe.toString(), anfe);
+            }
 
 	    }
 
