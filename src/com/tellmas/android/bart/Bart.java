@@ -77,73 +77,62 @@ public class Bart extends Activity {
             public void onClick(View v) {
                 TextView stationName = (TextView)findViewById(R.id.station_name);
                 stationName.setText(getString(R.string.locating));
-                getLocation(true);
+                getLocation();
             }
         });
 
-        this.getLocation(false);
+        this.getLocation();
     }
 
 
     /**
      * 
      */
-    private void getLocation(boolean forceNewLocation) {
+    private void getLocation() {
 
-        if (forceNewLocation) {
-            this.userLocation = null;
-        } else {
-            this.userLocation = this.getLastKnownLocation();
-        }
-        if (this.userLocation == null) {
+        this.locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 
-            this.locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-
-            // Determine which Location Sources are enabled
-            boolean gpsEnabled = false;
-            boolean networkEnabled = false;
-            String preferedProvider = null;
-            try {
-                gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            } catch (SecurityException se) {}
-            try {
-                networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            } catch (SecurityException se) {}
-            // Determine which Location Source to use
-            if (networkEnabled) {
-                preferedProvider = LocationManager.NETWORK_PROVIDER;
-            } else if (gpsEnabled) {
-                preferedProvider = LocationManager.GPS_PROVIDER;
-            }
-
-            // Define a listener that responds to location updates
-            LocationListener locationListener = new LocationListener() {
-                public void onLocationChanged(Location location) {
-                    userLocation = location;
-                    locationManager.removeUpdates(this);
-                    displayStation();
-                }
-                public void onStatusChanged(String provider, int status, Bundle extras) {}
-                public void onProviderEnabled(String provider) {
-                }
-                public void onProviderDisabled(String provider) {
-                    locationManager.removeUpdates(this);
-                }
-            };
-
-            // if there's a location provider enabled...
-            if (preferedProvider != null) {
-                // ...register the listener with the Location Manager to receive location updates.
-                locationManager.requestLocationUpdates(preferedProvider, 0, 0, locationListener);
-            // ...else...
-            } else {
-                // ...notify the user.
-                this.displayLocationError();
-            }
-        } else {
-            this.displayStation();
+        // Determine which Location Sources are enabled
+        boolean gpsEnabled = false;
+        boolean networkEnabled = false;
+        String preferedProvider = null;
+        try {
+            gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (SecurityException se) {}
+        try {
+            networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (SecurityException se) {}
+        // Determine which Location Source to use
+        if (networkEnabled) {
+            preferedProvider = LocationManager.NETWORK_PROVIDER;
+        } else if (gpsEnabled) {
+            preferedProvider = LocationManager.GPS_PROVIDER;
         }
 
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                userLocation = location;
+                locationManager.removeUpdates(this);
+                displayStation();
+            }
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onProviderEnabled(String provider) {
+            }
+            public void onProviderDisabled(String provider) {
+                locationManager.removeUpdates(this);
+            }
+        };
+
+        // if there's a location provider enabled...
+        if (preferedProvider != null) {
+            // ...register the listener with the Location Manager to receive location updates.
+            locationManager.requestLocationUpdates(preferedProvider, 0, 0, locationListener);
+        // ...else...
+        } else {
+            // ...notify the user.
+            this.displayLocationError();
+        }
     }
 
     
