@@ -63,7 +63,6 @@ public class Bart extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        String stringErrorAccessLocation = getString(R.string.error_location_access);
         this.stationInfo = new ArrayList<Station>(NUM_STATIONS);
 
         this.getStations();
