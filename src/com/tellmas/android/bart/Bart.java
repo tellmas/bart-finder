@@ -258,7 +258,7 @@ public class Bart extends Activity {
     }
 
 
-	private Location getLastKnownLocation() {
+    private Location getLastKnownLocation() {
 /*
         TextView stationName;
 
@@ -290,42 +290,42 @@ public class Bart extends Activity {
     }
 
 
-	/**
-	 *
-	 */
-	public class MapItOnClickListener implements OnClickListener {
+    /**
+     *
+     */
+    public class MapItOnClickListener implements OnClickListener {
 
-	    private Location location;
-	    private Station station;
-
-
-	    public MapItOnClickListener(Location location, Station station) {
-	        this.location = location;
-	        this.station = station;
-	    }
+        private Location location;
+        private Station station;
 
 
-	    /* (non-Javadoc)
-	     * @see android.view.View.OnClickListener#onClick(android.view.View)
-	     */
-	    @Override
-	    public void onClick(View v) {
-	        String uri = "";
-	        Intent intent = null;
-	        uri = "http://maps.google.com/maps?" +
-	            "saddr="  + this.location.getLatitude() + "," + this.location.getLongitude() +
-	            "&daddr=" + this.station.getLatitude()  + "," + this.station.getLongitude() + "(" + station.getName() + " BART)";
-	        try {
-	            intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-	            startActivity(intent);
-	        } catch (NullPointerException npe) {
-	            Log.e(LOG_ID, npe.toString(), npe);
+        public MapItOnClickListener(Location location, Station station) {
+            this.location = location;
+            this.station = station;
+        }
+
+
+        /* (non-Javadoc)
+         * @see android.view.View.OnClickListener#onClick(android.view.View)
+         */
+        @Override
+        public void onClick(View v) {
+            String uri = "";
+            Intent intent = null;
+            uri = "http://maps.google.com/maps?" +
+                "saddr="  + this.location.getLatitude() + "," + this.location.getLongitude() +
+                "&daddr=" + this.station.getLatitude()  + "," + this.station.getLongitude() + "(" + station.getName() + " BART)";
+            try {
+                intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                startActivity(intent);
+            } catch (NullPointerException npe) {
+                Log.e(LOG_ID, npe.toString(), npe);
             } catch (ActivityNotFoundException anfe) {
                 Log.e(LOG_ID, anfe.toString(), anfe);
             }
 
-	    }
+        }
 
-	}
+    }
 
 }
