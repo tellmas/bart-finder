@@ -312,7 +312,7 @@ public class Bart extends Activity {
         public void onClick(View v) {
             String uri = "";
             Intent intent = null;
-            uri = "http://maps.google.com/maps?" +
+            uri = "https://maps.google.com/maps?" +
                 "saddr="  + this.location.getLatitude() + "," + this.location.getLongitude() +
                 "&daddr=" + this.station.getLatitude()  + "," + this.station.getLongitude() + "(" + station.getName() + " BART)";
             try {
