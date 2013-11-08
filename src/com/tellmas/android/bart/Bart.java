@@ -74,6 +74,11 @@ public class Bart extends Activity {
     private static final String XML_TAG_NAME_STATION_ROOT = "station";
 
 
+    /**
+     *
+     * @param savedInstanceState Bundle for onCreate
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -100,7 +105,7 @@ public class Bart extends Activity {
 
 
     /**
-     * 
+     * Uses the system location services to determine the user's location on the planet
      */
     private void getLocation() {
 
@@ -150,6 +155,9 @@ public class Bart extends Activity {
     }
 
     
+    /**
+     * Displays in the Station name field the error message corresponding to no system location provider being enabled 
+     */
     private void displayLocationError() {
         TextView errorView = (TextView)findViewById(R.id.station_name);
         errorView.setText(getString(R.string.error_location_access));
@@ -159,6 +167,9 @@ public class Bart extends Activity {
     }
 
 
+    /**
+     * Displays the name of the closest station to the set user Location
+     */
     private void displayStation() {
         Station closestStation = null;
         String name = "";
@@ -181,6 +192,12 @@ public class Bart extends Activity {
     }
 
     
+    /**
+     * Determines the closest Station to the user's Location
+     *
+     * @param location user's Location
+     * @return the Station which was the closest to the passed Location
+     */
     private Station getClosestStation(Location location) {
         Station closestStation = (Station)this.stationInfo.get(0);
         float shortestDistance = Float.MAX_VALUE;
@@ -209,6 +226,9 @@ public class Bart extends Activity {
         return closestStation;
     }
 
+    /**
+     * Uses the XML data in 'stations.xml' to populate the 'stationInfo' List
+     */
     private void getStations() {
 
         String atWhichTag = "";
@@ -294,6 +314,11 @@ public class Bart extends Activity {
     }
 
 
+    /**
+     * Gets the last known location from the system location service
+     *
+     * @return the last known Location retruned from the system location service
+     */
     private Location getLastKnownLocation() {
 /*
         TextView stationName;
