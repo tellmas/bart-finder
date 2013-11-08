@@ -33,11 +33,11 @@ import org.xmlpull.v1.XmlPullParser;
  */
 public class Bart extends Activity {
 
-    /*
+    /**
      * number of 'station' nodes in 'stations.xml'
      */
     private final static int NUM_STATIONS = 44;
-    /*
+    /**
      * TAG for Android.util.Log
      */
     private final static String LOG_ID = "BART";
@@ -68,7 +68,7 @@ public class Bart extends Activity {
         initMap.put("zipcode", "setZipcode");
         xmlTags = Collections.unmodifiableMap(initMap);
     };
-    /*
+    /**
      * XML 'station' node name in 'stations.xml'
      */
     private static final String XML_TAG_NAME_STATION_ROOT = "station";
