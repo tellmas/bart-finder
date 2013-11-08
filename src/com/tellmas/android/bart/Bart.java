@@ -351,8 +351,9 @@ public class Bart extends Activity {
     }
 
 
+
     /**
-     *
+     * Intent launcher for Google Maps for the "Map it" button
      */
     public class MapItOnClickListener implements OnClickListener {
 
