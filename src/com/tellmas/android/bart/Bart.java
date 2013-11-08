@@ -315,44 +315,6 @@ public class Bart extends Activity {
 
 
     /**
-     * Gets the last known location from the system location service
-     *
-     * @return the last known Location retruned from the system location service
-     */
-    private Location getLastKnownLocation() {
-/*
-        TextView stationName;
-
-        stationName = (TextView)findViewById(R.id.station_name);
-        stationName.setText("test");
-*/
-        Location location = null;
-        //Log.d(LOG_ID, "in getLocation()");
-
-        // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-
-        // get the last known location
-        try {
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        // if location access is not turned on...
-        } catch(NullPointerException npe) {
-            //stationName.setText(stringErrorAccessLocation);
-            Log.e(LOG_ID, npe.toString(), npe);
-        } catch(Exception e) {
-            Log.e(LOG_ID, e.toString(), e);
-        }
-
-        if (location == null) {
-            Log.d(LOG_ID, "no Last Known Location");
-        }
-
-        return location;
-    }
-
-
-
-    /**
      * Intent launcher for Google Maps for the "Map it" button
      */
     public class MapItOnClickListener implements OnClickListener {
