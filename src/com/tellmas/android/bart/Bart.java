@@ -174,9 +174,7 @@ public class Bart extends Activity {
         Station closestStation = null;
         String name = "";
         if (this.userLocation != null) {
-            Log.i(LOG_ID, this.userLocation.getProvider());
             closestStation = this.getClosestStation(this.userLocation);
-            Log.i(LOG_ID, closestStation.getName());
             name = closestStation.getName();
         }
 
@@ -202,10 +200,8 @@ public class Bart extends Activity {
         Station closestStation = (Station)this.stationInfo.get(0);
         float shortestDistance = Float.MAX_VALUE;
         int arrayLength = this.stationInfo.size();
-        Log.i(LOG_ID, "arraylist size: " + arrayLength);
         for (int i=0; i < arrayLength; i++) {
             Station st = (Station)this.stationInfo.get(i);
-            //Log.i(LOG_ID, (this.stationInfo.get(i)).getLatitude() + "");
             Location stationLocation = new Location(location);
             stationLocation.setLatitude(st.getLatitude());
             stationLocation.setLongitude(st.getLongitude());
@@ -218,10 +214,7 @@ public class Bart extends Activity {
         }
 
         if (closestStation != null) {
-            Log.i(LOG_ID, "closest station: " + closestStation.getName());
             this.closestStation = closestStation; 
-        } else {
-            Log.i(LOG_ID, "closest station: NULL");
         }
         return closestStation;
     }
@@ -241,12 +234,10 @@ public class Bart extends Activity {
                     // if we're at the start of a node...
                     if (eventType == XmlPullParser.START_TAG) {
                         atWhichTag = xpp.getName();
-                        //Log.i(LOG_ID, "new tag: " + atWhichTag);
                         // if we're at the start of a <station>...
                         if (atWhichTag.equals(XML_TAG_NAME_STATION_ROOT)) {
                             station = new Station();
                             this.stationInfo.add(station);
-                            //Log.i(LOG_ID, "new Station()");
                         }
                         // else if we're NOT at the start of a xml node we recognize...
                         else if (! xmlTags.containsKey(atWhichTag)) {
