@@ -343,4 +343,8 @@ public class Bart extends Activity {
 
     }
 
+
+    private class Debug {
+        public static final boolean LOG = true;
+    }
 }
