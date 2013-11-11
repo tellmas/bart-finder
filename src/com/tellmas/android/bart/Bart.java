@@ -239,7 +239,7 @@ public class Bart extends Activity {
                             station = new Station();
                             this.stationInfo.add(station);
                         }
-                        // else if we're NOT at the start of a xml node we recognize...
+                        // else if we're NOT at the start of an xml node we recognize...
                         else if (! xmlTags.containsKey(atWhichTag)) {
                             //atWhichTag.put(XML_TAG_NAME_STATION_NAME, true);
                             //atWhichTag = XML_TAG_NAME_STATION_NAME;
