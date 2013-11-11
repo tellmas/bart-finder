@@ -282,24 +282,33 @@ public class Bart extends Activity {
                     }
                     // ...else at START_DOCUMENT, in which case we don't do anything on it.
 
+                // invalid xml value
                 } catch(NumberFormatException nfe) {
-                    // invalid xml value
-                    String msg = nfe.getMessage();
-                    msg.toString();
+                    if (Debug.LOG) {
+                        String msg = nfe.getMessage();
+                        msg.toString();
+                        Log.e(LOG_ID, msg, nfe);
+                    }
                 } catch(Exception e) {
-                    String msg = e.getMessage();
-                    msg.toString();
-                    Log.e(LOG_ID, msg, e);
+                    if (Debug.LOG) {
+                        String msg = e.getMessage();
+                        msg.toString();
+                        Log.e(LOG_ID, msg, e);
+                    }
                 } finally {
                     // go to next element
                     eventType = xpp.next();
                 }
 
             } // end while
+
+        // reading xml failed
         } catch(Exception e) {
-            // reading xml failed
-            String msg = e.getMessage();
-            msg.toString();
+            if (Debug.LOG) {
+                String msg = e.getMessage();
+                msg.toString();
+                Log.e(LOG_ID, msg, e);
+            }
         }
 
     }
@@ -334,9 +343,13 @@ public class Bart extends Activity {
                 intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                 startActivity(intent);
             } catch (NullPointerException npe) {
-                Log.e(LOG_ID, npe.toString(), npe);
+                if (Debug.LOG) {
+                    Log.e(LOG_ID, npe.toString(), npe);
+                }
             } catch (ActivityNotFoundException anfe) {
-                Log.e(LOG_ID, anfe.toString(), anfe);
+                if (Debug.LOG) {
+                    Log.e(LOG_ID, anfe.toString(), anfe);
+                }
             }
 
         }
