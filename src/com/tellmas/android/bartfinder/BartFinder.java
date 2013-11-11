@@ -1,4 +1,4 @@
-package com.tellmas.android.bart;
+package com.tellmas.android.bartfinder;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -31,7 +31,7 @@ import org.xmlpull.v1.XmlPullParser;
  * Main Activity
  *
  */
-public class Bart extends Activity {
+public class BartFinder extends Activity {
 
     /**
      * number of 'station' nodes in 'stations.xml'
@@ -40,7 +40,7 @@ public class Bart extends Activity {
     /**
      * TAG for Android.util.Log
      */
-    private final static String LOG_ID = "BART";
+    private final static String LOG_ID = "BARTFINDER";
 
     private Location userLocation;
     private Station closestStation;
