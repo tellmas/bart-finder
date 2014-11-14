@@ -320,6 +320,17 @@
     <zipcode>94520</zipcode>
   </station>
   <station>
+    <name>Oakland Int'l Airport</name>
+    <abbr>OAKL</abbr>
+    <gtfs_latitude>37.7117483</gtfs_latitude>
+    <gtfs_longitude>-122.2116349</gtfs_longitude>
+    <address>4 Airport Drive</address>
+    <city>Oakland</city>
+    <county>alameda</county>
+    <state>CA</state>
+    <zipcode>94621</zipcode>
+  </station>
+  <station>
     <name>Orinda</name>
     <abbr>ORIN</abbr>
     <gtfs_latitude>37.87836087</gtfs_latitude>

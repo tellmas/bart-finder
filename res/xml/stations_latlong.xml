@@ -175,6 +175,12 @@
     <gtfs_longitude>-122.024597</gtfs_longitude>
   </station>
   <station>
+    <name>Oakland Int'l Airport</name>
+    <abbr>OAKL</abbr>
+    <gtfs_latitude>37.7117483</gtfs_latitude>
+    <gtfs_longitude>-122.2116349</gtfs_longitude>
+  </station>
+  <station>
     <name>Orinda</name>
     <abbr>ORIN</abbr>
     <gtfs_latitude>37.87836087</gtfs_latitude>

@@ -36,7 +36,7 @@ public class BartFinder extends Activity {
     /**
      * number of 'station' nodes in 'stations.xml'
      */
-    private final static int NUM_STATIONS = 44;
+    private final static int NUM_STATIONS = 45;
     /**
      * TAG for Android.util.Log
      */
