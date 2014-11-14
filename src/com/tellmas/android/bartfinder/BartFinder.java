@@ -86,7 +86,7 @@ public class BartFinder extends Activity {
         this.stationInfo = new ArrayList<Station>(NUM_STATIONS);
 
         this.getStations();
-        
+
         setContentView(R.layout.main);
 
         // --- Refresh Location Button setup ---
@@ -154,9 +154,9 @@ public class BartFinder extends Activity {
         }
     }
 
-    
+
     /**
-     * Displays in the Station name field the error message corresponding to no system location provider being enabled 
+     * Displays in the Station name field the error message corresponding to no system location provider being enabled
      */
     private void displayLocationError() {
         TextView errorView = (TextView)findViewById(R.id.station_name);
@@ -189,7 +189,7 @@ public class BartFinder extends Activity {
         mapItButton.setVisibility(View.VISIBLE);
     }
 
-    
+
     /**
      * Determines the closest Station to the user's Location
      *
@@ -214,7 +214,7 @@ public class BartFinder extends Activity {
         }
 
         if (closestStation != null) {
-            this.closestStation = closestStation; 
+            this.closestStation = closestStation;
         }
         return closestStation;
     }
