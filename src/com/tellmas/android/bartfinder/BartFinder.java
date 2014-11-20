@@ -1,11 +1,14 @@
 package com.tellmas.android.bartfinder;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,7 +17,13 @@ import android.widget.TextView;
 
 import android.location.Location;
 import android.location.LocationManager;
-import android.location.LocationListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.ErrorDialogFragment;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,7 +40,10 @@ import org.xmlpull.v1.XmlPullParser;
  * Main Activity
  *
  */
-public class BartFinder extends Activity {
+public class BartFinder extends FragmentActivity implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
 
     /**
      * number of 'station' nodes in 'stations.xml'
@@ -46,6 +58,9 @@ public class BartFinder extends Activity {
     private Station closestStation;
 
     LocationManager locationManager;
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private boolean areUpdatesRequested;
 
     private ArrayList<Station> stationInfo;
 
@@ -74,6 +89,11 @@ public class BartFinder extends Activity {
     private static final String XML_TAG_NAME_STATION_ROOT = "station";
 
 
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private final static int LOCATION_UPDATE_INTERVAL = 5000;
+    private final static float LOCATION_UPDATE_DISPLACEMENT = 10.0f;
+
+
     /**
      *
      * @param savedInstanceState Bundle for onCreate
@@ -81,76 +101,203 @@ public class BartFinder extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
+        Log.v(LOG_ID, "onCreate()");
         super.onCreate(savedInstanceState);
-        this.stationInfo = new ArrayList<Station>(NUM_STATIONS);
 
+        this.stationInfo = new ArrayList<Station>(NUM_STATIONS);
         this.getStations();
 
         setContentView(R.layout.main);
 
-        // --- Refresh Location Button setup ---
-        Button refreshLocationButton = (Button)findViewById(R.id.refresh_location);
-        refreshLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView stationName = (TextView)findViewById(R.id.station_name);
-                stationName.setText(getString(R.string.locating));
-                getLocation();
-            }
-        });
+        if (this.isPlayServicesConnected()) {
+            Log.d(LOG_ID, "Attempting to instantiate a new LocationClient.");
 
-        this.getLocation();
+            this.googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+            this.locationRequest = LocationRequest.create();
+            this.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            this.locationRequest.setInterval(LOCATION_UPDATE_INTERVAL);
+            this.locationRequest.setSmallestDisplacement(LOCATION_UPDATE_DISPLACEMENT);
+            this.areUpdatesRequested = true;
+
+            this.locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        }
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * @see android.support.v4.app.FragmentActivity#onStart()
+     */
+    @Override
+    protected void onStart() {
+        Log.v(LOG_ID, "onStart()");
+        super.onStart();
+
+        this.googleApiClient.connect();
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * @see android.support.v4.app.FragmentActivity#onResume()
+     */
+    @Override
+    protected void onResume() {
+        Log.v(LOG_ID, "onResume()");
+        super.onResume();
+
+        if (!(this.locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+              this.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))) {
+            this.displayLocationError();
+        }
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * @see android.support.v4.app.FragmentActivity#onPause()
+     */
+    @Override
+    protected void onPause() {
+        Log.v(LOG_ID, "onPause()");
+
+        super.onPause();
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * @see android.support.v4.app.FragmentActivity#onStop()
+     */
+    @Override
+    protected void onStop() {
+        Log.v(LOG_ID, "onStop()");
+
+        this.googleApiClient.disconnect();
+
+        super.onStop();
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * @see com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener#onConnectionFailed(com.google.android.gms.common.ConnectionResult)
+     */
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        Log.v(LOG_ID, "onConnectionFailed()");
+
+        Log.w(LOG_ID, "Attempt to connect to Google Play Services failed.");
+        if (result.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                result.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+            // Thrown if Google Play services canceled the original PendingIntent
+            } catch (IntentSender.SendIntentException sie) {
+                Log.e(LOG_ID, "", sie);
+            }
+        } else {
+            // If no resolution is available, display a dialog to the user with the error.
+            this.showErrorDialog(result.getErrorCode(), "Unable to connect to Google Play Services");
+        }
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * @see com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks#onConnected(android.os.Bundle)
+     */
+    @Override
+    public void onConnected(Bundle connection) {
+        Log.v(LOG_ID, "onConnected()");
+
+        Log.d(LOG_ID, "onConnected(): areUpdatesRequested: " + this.areUpdatesRequested);
+
+        if (this.areUpdatesRequested) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, this.locationRequest, this);
+            this.userLocation = LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
+            try {
+                Log.d(LOG_ID, this.userLocation.toString());
+                this.displayStation();
+            } catch (NullPointerException npe) {
+                Log.d(LOG_ID, "user location object is null");
+            }
+        }
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * @see com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks#onConnectionSuspended(int)
+     */
+    @Override
+    public void onConnectionSuspended(int cause) {
+        Log.v(LOG_ID, "onConnectionSuspended()");
+        Log.d(LOG_ID, "connection to Google Api Client suspended");
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * @see com.google.android.gms.location.LocationListener#onLocationChanged(android.location.Location)
+     */
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.v(LOG_ID, "onLocationChanged()");
+
+        // if passed same location as already had...
+        if (this.userLocation.describeContents() == location.describeContents()) {
+            // ...ignore it.
+            Log.d(LOG_ID, "onLocationChanged(): same location received");
+        // ...else passed a different location...
+        } else {
+            // ...use it.
+            this.userLocation = location;
+            this.displayStation();
+        }
     }
 
 
     /**
-     * Uses the system location services to determine the user's location on the planet
+     * Checks to see if Play Services is available and connected.
+     * @return a boolean indicating if Play Services is connected or not
      */
-    private void getLocation() {
+    private boolean isPlayServicesConnected() {
 
-        this.locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        final int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
-        // Determine which Location Sources are enabled
-        boolean gpsEnabled = false;
-        boolean networkEnabled = false;
-        String preferedProvider = null;
-        try {
-            gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch (SecurityException se) {}
-        try {
-            networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch (SecurityException se) {}
-        // Determine which Location Source to use
-        if (networkEnabled) {
-            preferedProvider = LocationManager.NETWORK_PROVIDER;
-        } else if (gpsEnabled) {
-            preferedProvider = LocationManager.GPS_PROVIDER;
-        }
-
-        // Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                userLocation = location;
-                locationManager.removeUpdates(this);
-                displayStation();
-            }
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-            public void onProviderEnabled(String provider) {
-            }
-            public void onProviderDisabled(String provider) {
-                locationManager.removeUpdates(this);
-            }
-        };
-
-        // if there's a location provider enabled...
-        if (preferedProvider != null) {
-            // ...register the listener with the Location Manager to receive location updates.
-            locationManager.requestLocationUpdates(preferedProvider, 0, 0, locationListener);
-        // ...else...
+        if (resultCode == ConnectionResult.SUCCESS) {
+            Log.d(LOG_ID, "Google Play services is avaialble.");
+            return true;
         } else {
-            // ...notify the user.
-            this.displayLocationError();
+            Log.w(LOG_ID, "Google Play services is NOT avaialble.");
+            this.showErrorDialog(resultCode, "Google Play Services");
+            return false;
+        }
+    }
+
+
+    /*
+     *
+     */
+    private void showErrorDialog(int code, String reason) {
+        // Get the error dialog from Google Play services
+        final Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
+                code,
+                this,
+                CONNECTION_FAILURE_RESOLUTION_REQUEST);
+
+        // If Google Play services can provide an error dialog
+        if (errorDialog != null) {
+            // Create a new DialogFragment for the error dialog
+            ErrorDialogFragment errorFragment = ErrorDialogFragment.newInstance(errorDialog);
+            // Show the error dialog in the DialogFragment
+            errorFragment.show(getFragmentManager(), reason);
         }
     }
 
@@ -161,9 +308,6 @@ public class BartFinder extends Activity {
     private void displayLocationError() {
         TextView errorView = (TextView)findViewById(R.id.station_name);
         errorView.setText(getString(R.string.error_location_access));
-
-        Button refreshLocationButton = (Button)findViewById(R.id.refresh_location);
-        refreshLocationButton.setVisibility(View.VISIBLE);
     }
 
 
@@ -178,13 +322,10 @@ public class BartFinder extends Activity {
             name = closestStation.getName();
         }
 
-        TextView stationName = (TextView)findViewById(R.id.station_name);
+        TextView stationName = (TextView)this.findViewById(R.id.station_name);
         stationName.setText(name);
 
-        Button refreshLocationButton = (Button)findViewById(R.id.refresh_location);
-        refreshLocationButton.setVisibility(View.VISIBLE);
-
-        Button mapItButton = (Button)findViewById(R.id.map_it);
+        Button mapItButton = (Button)this.findViewById(R.id.map_it);
         mapItButton.setOnClickListener(new MapItOnClickListener(this.userLocation, this.closestStation));
         mapItButton.setVisibility(View.VISIBLE);
     }
@@ -310,7 +451,6 @@ public class BartFinder extends Activity {
                 Log.e(LOG_ID, msg, e);
             }
         }
-
     }
 
 
@@ -351,13 +491,33 @@ public class BartFinder extends Activity {
                     Log.e(LOG_ID, anfe.toString(), anfe);
                 }
             }
-
         }
+    }
 
+
+    /*
+     * (non-Javadoc)
+     * Handle results returned to the FragmentActivity by Google Play services.
+     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+     */
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        // Decide what to do based on the original request code
+        switch (requestCode) {
+
+            case CONNECTION_FAILURE_RESOLUTION_REQUEST:
+            // If the result code is Activity.RESULT_OK, try to connect again
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                    // TODO Try the request again
+                    break;
+                }
+        }
     }
 
 
     private class Debug {
         public static final boolean LOG = true;
     }
+
 }

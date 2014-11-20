@@ -39,12 +39,5 @@
             android:text="@string/map_it_button"
             android:id="@+id/map_it"
         />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:text="@string/refresh_location_button"
-            android:id="@+id/refresh_location"
-        />
     </LinearLayout>
 </LinearLayout>
