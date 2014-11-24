@@ -27,7 +27,8 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
@@ -48,10 +49,6 @@ public class BartFinder extends FragmentActivity implements
         LocationListener {
 
     /**
-     * number of 'station' nodes in 'stations.xml'
-     */
-    private final static int NUM_STATIONS = 45;
-    /**
      * TAG for Android.util.Log
      */
     private final static String LOG_ID = "BARTFINDER";
@@ -64,7 +61,7 @@ public class BartFinder extends FragmentActivity implements
     private LocationRequest locationRequest;
     private boolean areUpdatesRequested;
 
-    private ArrayList<Station> stationInfo;
+    private LinkedList<Station> stationInfo;
 
     /**
      * XML nodes in 'stations.xml' and corresponding setter methods
@@ -106,7 +103,7 @@ public class BartFinder extends FragmentActivity implements
         Log.v(LOG_ID, "onCreate()");
         super.onCreate(savedInstanceState);
 
-        this.stationInfo = new ArrayList<Station>(NUM_STATIONS);
+        this.stationInfo = new LinkedList<Station>();
         this.getStations();
 
         setContentView(R.layout.main);
@@ -334,9 +331,10 @@ public class BartFinder extends FragmentActivity implements
     private Station getClosestStation(Location location) {
         Station closestStation = (Station)this.stationInfo.get(0);
         float shortestDistance = Float.MAX_VALUE;
-        int arrayLength = this.stationInfo.size();
-        for (int i=0; i < arrayLength; i++) {
-            Station st = (Station)this.stationInfo.get(i);
+
+        ListIterator<Station> itr = this.stationInfo.listIterator(0);
+        while(itr.hasNext()) {
+            Station st = (Station)itr.next();
             Location stationLocation = new Location(location);
             stationLocation.setLatitude(st.getLatitude());
             stationLocation.setLongitude(st.getLongitude());
