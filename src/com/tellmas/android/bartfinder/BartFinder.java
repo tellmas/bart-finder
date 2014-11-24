@@ -92,7 +92,7 @@ public class BartFinder extends FragmentActivity implements
 
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private final static int LOCATION_UPDATE_INTERVAL = 5000;
+    private final static int LOCATION_UPDATE_INTERVAL = 8000;
     private final static float LOCATION_UPDATE_DISPLACEMENT = 10.0f;
 
 
