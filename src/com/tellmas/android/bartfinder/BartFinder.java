@@ -417,17 +417,13 @@ public class BartFinder extends FragmentActivity implements
 
                 // invalid xml value
                 } catch(NumberFormatException nfe) {
-                    if (Debug.LOG) {
-                        String msg = nfe.getMessage();
-                        msg.toString();
-                        Log.e(LOG_ID, msg, nfe);
-                    }
+                    String msg = nfe.getMessage();
+                    msg.toString();
+                    Log.e(LOG_ID, msg, nfe);
                 } catch(Exception e) {
-                    if (Debug.LOG) {
-                        String msg = e.getMessage();
-                        msg.toString();
-                        Log.e(LOG_ID, msg, e);
-                    }
+                    String msg = e.getMessage();
+                    msg.toString();
+                    Log.e(LOG_ID, msg, e);
                 } finally {
                     // go to next element
                     eventType = xpp.next();
@@ -437,11 +433,9 @@ public class BartFinder extends FragmentActivity implements
 
         // reading xml failed
         } catch(Exception e) {
-            if (Debug.LOG) {
-                String msg = e.getMessage();
-                msg.toString();
-                Log.e(LOG_ID, msg, e);
-            }
+            String msg = e.getMessage();
+            msg.toString();
+            Log.e(LOG_ID, msg, e);
         }
     }
 
@@ -475,13 +469,9 @@ public class BartFinder extends FragmentActivity implements
                 intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                 startActivity(intent);
             } catch (NullPointerException npe) {
-                if (Debug.LOG) {
-                    Log.e(LOG_ID, npe.toString(), npe);
-                }
+                Log.e(LOG_ID, npe.toString(), npe);
             } catch (ActivityNotFoundException anfe) {
-                if (Debug.LOG) {
-                    Log.e(LOG_ID, anfe.toString(), anfe);
-                }
+                Log.e(LOG_ID, anfe.toString(), anfe);
             }
         }
     }
@@ -578,11 +568,6 @@ public class BartFinder extends FragmentActivity implements
             this.activityInProgressView.setVisibility(View.GONE);
             this.stationInfoView.setVisibility(View.VISIBLE);
         }
-    }
-
-
-    private class Debug {
-        public static final boolean LOG = true;
     }
 
 }
