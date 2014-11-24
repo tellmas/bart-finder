@@ -514,6 +514,9 @@ public class BartFinder extends FragmentActivity implements
      */
     private class DetermineAndDisplayClosestStationTask extends AsyncTask<Void, Void, String> {
 
+        // how long to show the (fake) activity indicator (in seconds)
+        private static final int PROGRESS_DISPLAY_DURATION = 3;
+
         private View stationInfoView;
         private View activityInProgressView;
         private ProgressBar activityIndicator;
@@ -550,8 +553,7 @@ public class BartFinder extends FragmentActivity implements
 
             // Sleeps the thread, simulating an operation that takes time
             try {
-                // Sleep for 5 seconds
-                Thread.sleep(5*1000);
+                Thread.sleep(PROGRESS_DISPLAY_DURATION * 1000);
             } catch (InterruptedException ie) {
                 Log.w(LOG_ID, "DetermineAndDisplayClosestStationTask: doInBackground(): sleep failure", ie);
             }
