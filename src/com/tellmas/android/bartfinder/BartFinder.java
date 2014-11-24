@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.content.IntentSender;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import android.location.Location;
@@ -220,10 +222,8 @@ public class BartFinder extends FragmentActivity implements
 
         if (this.areUpdatesRequested) {
             LocationServices.FusedLocationApi.requestLocationUpdates(this.googleApiClient, this.locationRequest, this);
-            this.userLocation = LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
             try {
-                Log.d(LOG_ID, this.userLocation.toString());
-                this.displayStation();
+                Log.d(LOG_ID, "Saved location:\n" + this.userLocation.toString());
             } catch (NullPointerException npe) {
                 Log.d(LOG_ID, "user location object is null");
             }
@@ -247,17 +247,21 @@ public class BartFinder extends FragmentActivity implements
      * @see com.google.android.gms.location.LocationListener#onLocationChanged(android.location.Location)
      */
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location newLocation) {
         Log.v(LOG_ID, "onLocationChanged()");
+        Log.d(LOG_ID, "onLocationChanged(): location received:\n" + newLocation.toString());
 
         // if passed same location as already had...
-        if (this.userLocation.describeContents() == location.describeContents()) {
+        if ((this.userLocation != null) &&
+            (this.userLocation.distanceTo(newLocation) == 0)) {
+
             // ...ignore it.
-            Log.d(LOG_ID, "onLocationChanged(): same location received");
-        // ...else passed a different location...
+            Log.d(LOG_ID, "onLocationChanged(): This was the same location.");
+        // ...else passed a new or different location...
         } else {
             // ...use it.
-            this.userLocation = location;
+            Log.d(LOG_ID, "onLocationChanged: This was a new location.");
+            this.userLocation = newLocation;
             this.displayStation();
         }
     }
@@ -315,19 +319,9 @@ public class BartFinder extends FragmentActivity implements
      * Displays the name of the closest station to the set user Location
      */
     private void displayStation() {
-        Station closestStation = null;
-        String name = "";
-        if (this.userLocation != null) {
-            closestStation = this.getClosestStation(this.userLocation);
-            name = closestStation.getName();
-        }
+        Log.v(LOG_ID, "displayStation()");
 
-        TextView stationName = (TextView)this.findViewById(R.id.station_name);
-        stationName.setText(name);
-
-        Button mapItButton = (Button)this.findViewById(R.id.map_it);
-        mapItButton.setOnClickListener(new MapItOnClickListener(this.userLocation, this.closestStation));
-        mapItButton.setVisibility(View.VISIBLE);
+        new DetermineAndDisplayClosestStationTask().execute();
     }
 
 
@@ -512,6 +506,77 @@ public class BartFinder extends FragmentActivity implements
                     // TODO Try the request again
                     break;
                 }
+        }
+    }
+
+
+    /*
+     * Determines the closest station while displaying an indeterminate progress bar for a bit,
+     * then displays the station name.
+     */
+    private class DetermineAndDisplayClosestStationTask extends AsyncTask<Void, Void, String> {
+
+        private View stationInfoView;
+        private View activityInProgressView;
+        private ProgressBar activityIndicator;
+
+
+        /*
+         * (non-Javadoc)
+         * @see android.os.AsyncTask#onPreExecute()
+         */
+        @Override
+        protected void onPreExecute() {
+            this.stationInfoView = (View)findViewById(R.id.station_info);
+            this.activityInProgressView = (View)findViewById(R.id.activity_in_progress);
+            this.activityIndicator = (ProgressBar)findViewById(R.id.activity_indicator);
+
+            this.activityIndicator.setProgress(0);
+            this.stationInfoView.setVisibility(View.GONE);
+            this.activityInProgressView.setVisibility(View.VISIBLE);
+        }
+
+
+        /*
+         * (non-Javadoc)
+         * @see android.os.AsyncTask#doInBackground(Params[])
+         */
+        @Override
+        protected String doInBackground(Void... nothing) {
+
+            String stationName = "";
+            if (BartFinder.this.userLocation != null) {
+                BartFinder.this.closestStation = BartFinder.this.getClosestStation(BartFinder.this.userLocation);
+                stationName = BartFinder.this.closestStation.getName();
+            }
+
+            // Sleeps the thread, simulating an operation that takes time
+            try {
+                // Sleep for 5 seconds
+                Thread.sleep(5*1000);
+            } catch (InterruptedException ie) {
+                Log.w(LOG_ID, "DetermineAndDisplayClosestStationTask: doInBackground(): sleep failure", ie);
+            }
+
+            return stationName;
+        }
+
+
+        /*
+         * (non-Javadoc)
+         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+         */
+        @Override
+        protected void onPostExecute(String stationName) {
+            TextView stationNameView = (TextView)findViewById(R.id.station_name);
+            stationNameView.setText(stationName);
+
+            Button mapItButton = (Button)findViewById(R.id.map_it);
+            mapItButton.setOnClickListener(new MapItOnClickListener(BartFinder.this.userLocation, BartFinder.this.closestStation));
+            mapItButton.setVisibility(View.VISIBLE);
+
+            this.activityInProgressView.setVisibility(View.GONE);
+            this.stationInfoView.setVisibility(View.VISIBLE);
         }
     }
 
